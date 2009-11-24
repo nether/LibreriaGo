@@ -69,39 +69,3 @@ func (iF *InitFile) ReadAll() (error os.Error){
 	return nil;
 }
 
-/*func ReadInit(file string) (mapa map[string]string, error os.Error) {
-	mapa = make(map[string]string);
-	if contenido,error := io.ReadFile(file);error!=nil{
-		return nil,error
-	} else {
-		cadena := string(contenido);
-		lineas := strings.Split(cadena,"\n",0);
-		for _,linea := range lineas {
-			if len(linea) == 0 {
-				continue
-			}
-			if linea[0]==comentario{
-				continue
-			}
-			valores := strings.Split(linea,"=",2);
-			if len(valores) != 2 {
-				continue;
-			}		
-			mapa[valores[0]]=valores[1];
-		}
-	}
-	return mapa,nil;
-}
-
-func WriteInit(mapa map[string]string, file string, perm int) (error os.Error) {
-	f, e := os.Open(file, perm, os.O_CREAT | os.O_WRONLY);
-	if e!= nil {
-		return e;
-	}
-	for key,value := range mapa {
-		if _,err := fmt.Fprintf(f,"%s=%s\n",key,value); err!=nil{
-			return err;
-		}
-	}
-	return nil;
-}*/
