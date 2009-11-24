@@ -6,26 +6,35 @@ import (
 	"strings";
 )
 
-type contenido map[string]string;
-type seccion map[string]contenido;
-
-type InitFile struct {
-	Nombre string;
-	Seccion seccion;
-}
-
 const(
 	comentario byte = 0x23; // Ascii 23 = #
 	corchete byte = 0x5B; //Ascii 0x5B = [
 	cierracorchete = 0x5D; // Ascii 0x5D = ]
 )
 
+type contenido map[string]string;
+type seccion map[string]contenido;
+
+// Estructura que define un archivo '.ini'.
+// El elemento Seccion es un mapa de mapas.
+// Las secciones en el .ini deben tener la forma [NombreSeccion]. 
+// Los elementos válidos tienen la forma clave=valor.
+// Para recuperar un elemento se puede hacer Seccion[NombreSeccion][clave]
+type InitFile struct {
+	Nombre string;
+	Seccion seccion;
+}
+
+// Crea una estructura vacía representando un archivo '.ini'.
 func New(nombre string) *InitFile {
 	return &InitFile{ nombre,make(seccion,1) };
 }
 
+// ReadAll lee el archivo .ini especificado en la estructura.
+// Crea un mapa de mapas representando la estructura del archivo,
+// separando secciones y elementos dentro de la seccion y lo almacena
+// en la variable Seccion de la estructura InitFile.
 func (iF *InitFile) ReadAll() (error os.Error){
-	
 	micontenido := make(contenido);
 	miseccion := "default";
 	if mifichero,error := io.ReadFile(iF.Nombre);error!=nil{

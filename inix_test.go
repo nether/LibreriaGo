@@ -4,7 +4,8 @@ import (
 	. "inix";
 	"fmt";
 	"testing";
-//	"reflect";
+	"os";
+	"io";
 )
 
 /*var seccionTest seccion = map[string]map[string]string {
@@ -17,6 +18,50 @@ import (
 	};
 }
 */
+
+var textoInix = `
+#Archivo para realizar test iniciales de la libreria inix.
+#Las líneas que comienzan con # son ignoradas.
+
+#Las primeras igualdades que no van en una seccion 
+# se guardan en la seccion default.
+inicio=principio
+prueba espacio=prueba espacio
+prueba igual=prueba=igual
+
+#Las secciones comienzan con [ y terminan en ]. 
+#Cualquier otra cosa es ignorada
+[aaaaaa
+]bbbbbb
+[cccccc]c
+]dddddd]
+[eeeeee[
+
+#Los espacio antes de la seccion son validos
+ [Seccion 3]
+
+#Los espacios al final de la seccion son válidos
+[Seccion 4] 
+secciondefault=default
+#Descomentar siguiente línea para probar el test.
+#probando=test 
+
+[Seccion 2]
+otra seccion=una seccion distinta
+fin=fin
+
+#Puesto para comprobar el test
+#[Seccion 3]
+#pruebatest=el test debe fallar
+
+#Archivo creado desde inix_test.go
+`
+func crearArchivoIni() os.Error{
+	file,err := os.Open("inix.ini", os.O_CREAT | os.O_WRONLY, 0600);
+	if err != nil { return err; }
+	io.WriteString(file,textoInix);
+	return nil;
+}
 var seccionTest = make(map[string]map[string]string);
 
 func rellenarSeccionTest(){
@@ -35,6 +80,9 @@ func rellenarSeccionTest(){
 }
 
 func TestReadAll(t *testing.T){
+	if err := crearArchivoIni(); err != nil {
+		t.Errorf(fmt.Sprint("Error al crear archivo .ini",err));
+	}
 	inicio := New("inix.ini");
 	rellenarSeccionTest();
 	if error := inicio.ReadAll();error!=nil {
