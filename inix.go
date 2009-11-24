@@ -4,8 +4,6 @@ import (
 	"os";
 	"io";
 	"strings";
-	"fmt";
-//	"container/vector";
 )
 
 type contenido map[string]string;
@@ -18,8 +16,8 @@ type InitFile struct {
 
 const(
 	comentario byte = 0x23; // Ascii 23 = #
-	corchete byte = 0x5B;
-	cierracorchete = 0x5D;
+	corchete byte = 0x5B; //Ascii 0x5B = [
+	cierracorchete = 0x5D; // Ascii 0x5D = ]
 )
 
 func New(nombre string) *InitFile {
@@ -36,37 +34,33 @@ func (iF *InitFile) ReadAll() (error os.Error){
 		cadena := string(mifichero);
 		lineas := strings.Split(cadena,"\n",0);
 		for _,linea := range lineas {
-//			fmt.Printf("Analizando línea: %s", linea);
-			if len(linea) == 0 {
+			expresion := strings.TrimSpace(linea);
+			if len(expresion) == 0 {
 				continue
 			}
-			if linea[0]==comentario{
+			if expresion[0]==comentario{
 				continue
 			}
-			if linea[0]==corchete && linea[len(linea)-1]==cierracorchete {
-//				fmt.Printf(" - Nueva seccion\n");
+			if expresion[0]==corchete && expresion[len(expresion)-1]==cierracorchete {
 				iF.Seccion[miseccion] = micontenido;
-				miseccion = string(linea[1:len(linea)-1]);
+				miseccion = string(expresion[1:len(expresion)-1]);
 				micontenido = make(contenido);
 				continue;
 			}
-			valores := strings.Split(linea,"=",2);
+			valores := strings.Split(expresion,"=",2);
 			if len(valores) != 2 {
-				fmt.Printf("Linea incomprensible: %s",linea);
 				continue;
 			}		
-//			fmt.Printf(" - Añadido al mapa (seccion %s).\n",miseccion);
 			micontenido[valores[0]]=valores[1];
 		}
 	}
 	if _,ok := iF.Seccion[miseccion];!ok{
-//		fmt.Println("\nAñadiendo contenido final.");
 		iF.Seccion[miseccion]=micontenido;
 	}
 	return nil;
 }
 
-func ReadInit(file string) (mapa map[string]string, error os.Error) {
+/*func ReadInit(file string) (mapa map[string]string, error os.Error) {
 	mapa = make(map[string]string);
 	if contenido,error := io.ReadFile(file);error!=nil{
 		return nil,error
@@ -101,4 +95,4 @@ func WriteInit(mapa map[string]string, file string, perm int) (error os.Error) {
 		}
 	}
 	return nil;
-}
+}*/

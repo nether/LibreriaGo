@@ -21,8 +21,7 @@ prueba igual=prueba=igual
 #Los espacios al final de la seccion son válidos
 [Seccion 4] 
 secciondefault=default
-#Descomentar siguiente línea para probar el test.
-#probando=test 
+#probando=test
 
 [Seccion 2]
 otra seccion=una seccion distinta
