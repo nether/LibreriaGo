@@ -15,13 +15,13 @@ const(
 type contenido map[string]string;
 type seccion map[string]contenido;
 
-// Estructura que define un archivo '.ini'.
+// La estructura InitFile define un archivo '.ini'.
 // El elemento Seccion es un mapa de mapas.
 // Las secciones en el .ini deben tener la forma [NombreSeccion]. 
 // Los elementos válidos tienen la forma clave=valor.
 // Para recuperar un elemento se puede hacer Seccion[NombreSeccion][clave]
 type InitFile struct {
-	Nombre string;
+	nombre string;
 	Seccion seccion;
 }
 
@@ -37,7 +37,7 @@ func New(nombre string) *InitFile {
 func (iF *InitFile) ReadAll() (error os.Error){
 	micontenido := make(contenido);
 	miseccion := "default";
-	if mifichero,error := io.ReadFile(iF.Nombre);error!=nil{
+	if mifichero,error := io.ReadFile(iF.nombre);error!=nil{
 		return error
 	} else {
 		cadena := string(mifichero);
