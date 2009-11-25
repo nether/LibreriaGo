@@ -53,8 +53,6 @@ fin=fin
 #Puesto para comprobar el test
 #[Seccion 3]
 #pruebatest=el test debe fallar
-
-#Archivo creado desde inix_test.go
 `
 func crearArchivoIni() os.Error{
 	file,err := os.Open("inix.ini", os.O_CREAT | os.O_WRONLY, 0600);
@@ -73,7 +71,6 @@ func rellenarSeccionTest(){
 	
 	seccionTest["Seccion 2"]["otra seccion"] = "una seccion distinta";
 	seccionTest["Seccion 2"]["fin"] = "fin";
-//	seccionTest["Seccion 2"]["unomas"] = "uno";
 	seccionTest["Seccion 3"]=make(map[string]string);
 	seccionTest["Seccion 4"]=make(map[string]string);
 	seccionTest["Seccion 4"]["secciondefault"] = "default";
